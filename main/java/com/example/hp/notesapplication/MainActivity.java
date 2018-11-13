@@ -81,8 +81,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     NotesList newList = new NotesList();
+//                    for(int i=0;i<listOfNotes.getList().size();i++){
+//                            if(listOfNotes.getList().get(i).getName().equals(query)){
+//                            newList.Add(listOfNotes.getList().get(i));
+//                        }
+//                    }
                     for(int i=0;i<listOfNotes.getList().size();i++){
-                        if(listOfNotes.getList().get(i).getName().equals(query)){
+                        if(listOfNotes.getList().get(i).getDescription().contains(query)){
                             newList.Add(listOfNotes.getList().get(i));
                         }
                     }
@@ -230,6 +235,9 @@ public class MainActivity extends AppCompatActivity {
 //        Notes note = new Notes();
 //        note.setList(notes);
 //        outState.putSerializable("key",note);
+        NotesList currentList = new NotesList();
+        currentList.setList(stateAdapter.getList());
+        outState.putSerializable("currentList",currentList);
         outState.putSerializable("key",listOfNotes);
     }
 
@@ -242,7 +250,8 @@ public class MainActivity extends AppCompatActivity {
         //stateAdapter = new StateAdapter(this, R.layout.list_item, notes);
 
         listOfNotes = (NotesList) savedInstanceState.getSerializable("key");
-        stateAdapter = new StateAdapter(this, R.layout.list_item, listOfNotes.getList());
+        NotesList currentList = (NotesList) savedInstanceState.getSerializable("currentList");
+        stateAdapter = new StateAdapter(this, R.layout.list_item, currentList.getList());
         notesList.setAdapter(stateAdapter);
     }
 }
